@@ -21,6 +21,11 @@ const asObject = anecdote => ({
 const useAnecdoteStore = create((set) => ({
   anecdotes: anecdotesAtStart.map(asObject),
   actions: {
+    addAnecdote: content => set(
+      state => ({
+        anecdotes : state.anecdotes.concat(asObject(content))
+      })
+    ),
     addVote: id =>  set(
       state => ({
         anecdotes: state.anecdotes.map(
