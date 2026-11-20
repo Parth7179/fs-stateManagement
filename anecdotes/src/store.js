@@ -1,19 +1,21 @@
-
 import { create } from 'zustand'
 import anecdoteService from './Services/anecdotes'
 const useAnecdoteStore = create((set) => ({
   anecdotes: [],
   filter:'',
+
   actions: {
+
     initialize: async () => {
       const anecdotes = await anecdoteService.getAll()
       set(() => ({anecdotes}))
     },
-    addAnecdote: content => set(
-      state => ({
-        anecdotes : state.anecdotes.concat(asObject(content))
-      })
-    ),
+
+    addAnecdote: async (anecdote) => {
+      const ane = await anecdoteService.createNew(anecdote)
+      set( state => ({anecdotes: state.anecdotes.concat(ane)}))
+    },
+
     addVote: id =>  set(
       state => ({
         anecdotes: state.anecdotes.map(
@@ -21,6 +23,7 @@ const useAnecdoteStore = create((set) => ({
         ).toSorted((a,b) => b.votes - a .votes)
       })
     ),
+    
     setFilter: value => set(() => ({ filter: value }))
   },
 }))
