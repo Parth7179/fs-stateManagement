@@ -4,10 +4,6 @@ const AnecdoteList = () => {
   const anecdotes = useAnecdotes()
   const { addVote } = useAnecdoteActions()
 
-  const vote = (id) => {
-    addVote(id)
-  }
-
   return (
     <div>
       <h2>Anecdotes</h2>
@@ -16,7 +12,7 @@ const AnecdoteList = () => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => addVote(anecdote.id)}>vote</button>
           </div>
         </div>
       ))}
