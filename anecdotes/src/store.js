@@ -27,6 +27,17 @@ const useAnecdoteStore = create((set, get) => ({
         anecdotes: state.anecdotes.map(a => a.id === id? updated: a).toSorted((a,b) => b.votes - a.votes)
       }))
     },
+    deleteAnecdote: async (id) => {
+      const anecdote = get().anecdotes.find(a => a.id ===id)
+      if( !anecdote ||anecdote.votes > 0 ) return null
+      
+      await anecdoteService.deleteAnec(id)
+      useNotificationStore.getState().actions.setNotification(`Anecdote "${anecdote.content}"   Deleted! `)
+      set(state => ({
+        anecdotes: state.anecdotes.filter(a => a.id !== id)
+      }))
+      
+    },
 
     setFilter: value => set(() => ({ filter: value }))
   },
